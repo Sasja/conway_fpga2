@@ -2,6 +2,7 @@
 #-- Project file /media/sf_git/conway_fpga2/conway_fpga2_syn.prj
 #project files
 
+add_file -vhdl -lib work "vgatest.vhdl" 
 #implementation: "conway_fpga2_Implmnt"
 impl -add conway_fpga2_Implmnt -type fpga
 
@@ -51,5 +52,5 @@ set_option -write_apr_constraint 1
 project -result_format "edif"
 project -result_file ./conway_fpga2_Implmnt/conway_fpga2.edf
 project -log_file "./conway_fpga2_Implmnt/conway_fpga2.srr"
-impl -active "conway_fpga2_Implmnt"
+impl -active conway_fpga2_Implmnt
 project -run synthesis -clean
