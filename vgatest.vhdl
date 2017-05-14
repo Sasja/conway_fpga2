@@ -18,7 +18,7 @@ architecture rtl of vgatest is
   signal cnt    : natural range 0 to 7;   --subpixel count
   signal pcnt   : natural range 0 to 799; --pixel    count (160 is 1st visible)
   signal lcnt   : natural range 0 to 524; --line     count (0 is 1st visible)
-  signal fcnt   : natural range 0 to 59;  --frame    count
+  signal fcnt   : natural range 0 to 127;  --frame    count
   signal i_clk  : std_logic;
 
   begin
@@ -46,7 +46,7 @@ architecture rtl of vgatest is
                 lcnt <= lcnt + 1;
               else
                 lcnt <= 0;
-                if (fcnt < 59) then
+                if (fcnt < 127) then
                   fcnt <= fcnt + 1;
                 else
                   fcnt <= 0;
@@ -80,7 +80,7 @@ architecture rtl of vgatest is
     process (pcnt) is
       begin
       if (pcnt > 160 and lcnt < 480) then
-        if ((pcnt / 64 + lcnt / 64) mod 2 = 0) then
+        if (((pcnt + fcnt + lcnt) / 64 ) mod 2 = 0) then
           VGA_R <= '0';
           VGA_G <= '0';
           VGA_B <= '0';
