@@ -20,7 +20,7 @@ architecture rtl of vgatest is
       begin
         if rising_edge(i_clk) then
           if (cnt = 99) then
-            cnt <= 0
+            cnt <= 0;
             if (led = '0') then
               led <= '1';
             else
