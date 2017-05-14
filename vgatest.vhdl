@@ -66,10 +66,10 @@ architecture rtl of vgatest is
 
     process (pcnt) is
       begin
-      if (lcnt = 640+16) then
+      if (pcnt = 640+16) then
         VGA_HSYNC <= '1';
       end if;
-      if (lcnt = 640+16+21) then
+      if (pcnt = 640+16+21) then
         VGA_HSYNC <= '0';
       end if;
     end process;
