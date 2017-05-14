@@ -79,12 +79,12 @@ architecture rtl of vgatest is
       begin
       if (pcnt > 160) then
         if ((pcnt / 8) mod 2 = 0) then
-          VGA_R <= '1';
+          VGA_R <= '0';
         else
           VGA_R <= '1';
         end if;
       else
-        VGA_R <= '0';
+        VGA_R <= '1';
       end if;
     end process;
 
