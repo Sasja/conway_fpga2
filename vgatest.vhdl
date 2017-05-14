@@ -19,13 +19,15 @@ architecture rtl of vgatest is
     process (i_clk) is
       begin
         if rising_edge(i_clk) then
-          cnt <= cnt + 1;
-          if (cnt = 0) then
+          if (cnt = 99) then
+            cnt <= 0
             if (led = '0') then
               led <= '1';
             else
               led <= '0';
             end if;
+          else
+            cnt <= cnt + 1;
           end if;
         end if;
     end process;
