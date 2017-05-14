@@ -62,7 +62,7 @@ architecture rtl of vgatest is
       if (lcnt = 480+10+2) then
         VGA_VSYNC <= '0';
       end if;
-    end process
+    end process;
 
     process (pcnt) is
       begin
@@ -72,6 +72,6 @@ architecture rtl of vgatest is
       if (lcnt = 640+16+21) then
         VGA_VSYNC <= '0';
       end if;
-    end process
+    end process;
 
 end rtl;
