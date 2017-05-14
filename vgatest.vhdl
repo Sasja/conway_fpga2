@@ -4,8 +4,9 @@ use ieee.numeric_std.all;
 
 entity vgatest is
   port (
-    i_clk  : in     std_logic;
-    LED1   : out    std_logic );
+    i_clk     : in     std_logic;
+    LED1      : out    std_logic;
+    VGA_VSYNC : out    std_logic);
 end vgatest;
 
 architecture rtl of vgatest is
@@ -29,6 +30,7 @@ architecture rtl of vgatest is
         end if;
     end process;
 
-    LED1 <= led;
+    LED1      <= led;
+    VGA_VSYNC <= led;
 
 end rtl;

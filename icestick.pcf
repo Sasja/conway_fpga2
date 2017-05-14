@@ -16,10 +16,16 @@
 set_io i_clk 21
 
 set_io LED1 99
-#set_io LED3 97
-#set_io LED5 95
-#set_io LED2 98
-#set_io LED4 96
+set_io LED3 97
+set_io LED5 95
+set_io LED2 98
+set_io LED4 96
+
+set_io VGA_R 62
+set_io VGA_G 61
+set_io VGA_B 60
+set_io VGA_VSYNC 56
+set_io VGA_HSYNC 48
 
 #set_io PMOD1 78
 #set_io PMOD2 79
