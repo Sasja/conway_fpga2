@@ -3,6 +3,7 @@
 #project files
 
 add_file -vhdl -lib work "vgatest.vhdl" 
+add_file -constraint -lib work "vgatest.sdc"
 #implementation: "conway_fpga2_Implmnt"
 impl -add conway_fpga2_Implmnt -type fpga
 
