@@ -8,7 +8,9 @@ entity vgatest is
     LED1      : out    std_logic;
     VGA_VSYNC : out    std_logic;
     VGA_HSYNC : out    std_logic;
-    VGA_R     : out    std_logic);
+    VGA_R     : out    std_logic;
+    VGA_G     : out    std_logic;
+    VGA_B     : out    std_logic);
 end vgatest;
 
 architecture rtl of vgatest is
@@ -77,14 +79,20 @@ architecture rtl of vgatest is
 
     process (pcnt) is
       begin
-      if (pcnt > 160) then
+      if (pcnt > 160 and lcnt < 480) then
         if ((pcnt / 64 + lcnt / 64) mod 2 = 0) then
           VGA_R <= '0';
+          VGA_G <= '0';
+          VGA_B <= '0';
         else
           VGA_R <= '1';
+          VGA_G <= '1';
+          VGA_B <= '1';
         end if;
       else
         VGA_R <= '1';
+        VGA_G <= '1';
+        VGA_B <= '1';
       end if;
     end process;
 
