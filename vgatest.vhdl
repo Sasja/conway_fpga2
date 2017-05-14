@@ -11,7 +11,7 @@ end vgatest;
 
 architecture rtl of vgatest is
 
-  signal cnt : natural range 0 to 1000000;
+  signal cnt : natural range 0 to 100;
   signal led : std_logic;
 
   begin
