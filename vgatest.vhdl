@@ -78,7 +78,7 @@ architecture rtl of vgatest is
     process (pcnt) is
       begin
       if (pcnt > 160) then
-        if ((pcnt / 8) mod 2 = 0) then
+        if ((pcnt / 64 + lcnt / 64) mod 2 = 0) then
           VGA_R <= '0';
         else
           VGA_R <= '1';
