@@ -6,14 +6,17 @@ entity vgatest is
   port (
     clk12mhz  : in     std_logic;
     LED1      : out    std_logic;
-    VGA_VSYNC : out    std_logic);
+    VGA_VSYNC : out    std_logic;
+    VGA_HSYNC : out    std_logic);
 end vgatest;
 
 architecture rtl of vgatest is
 
-  signal cnt  : natural range 0 to 1000000;
-  signal led  : std_logic;
-  signal i_clk: std_logic;
+  signal cnt    : natural range 0 to 7;   --subpixel count
+  signal pcnt   : natural range 0 to 724; --pixel    count
+  signal lcnt   : natural range 0 to 524; --line     count
+  signal fcnt   : natural range 0 to 59;  --frame    count
+  signal i_clk  : std_logic;
 
   begin
 
@@ -28,20 +31,47 @@ architecture rtl of vgatest is
     process (i_clk) is
       begin
         if rising_edge(i_clk) then
-          if (cnt = 999999) then
-            cnt <= 0;
-            if (led = '0') then
-              led <= '1';
-            else
-              led <= '0';
-            end if;
-          else
+          if (cnt < 7) then
             cnt <= cnt + 1;
+          else
+            cnt <= 0;
+            if (pcnt < 724) then
+              pcnt <= pcnt + 1;
+            else
+              pcnt <= 0;
+              if (lcnt < 524) then
+                lcnt <= lcnt + 1;
+              else
+                lcnt <= 0;
+                if (fcnt < 59) then
+                  fcnt <= fcnt + 1;
+                else
+                  fcnt <= 0;
+                end if;
+              end if;
+            end if;
           end if;
         end if;
     end process;
 
-    LED1      <= led;
-    VGA_VSYNC <= led;
+    process (lcnt) is
+      begin
+      if (lcnt = 480+10) then
+        VGA_VSYNC <= '1';
+      end if;
+      if (lcnt = 480+10+2) then
+        VGA_VSYNC <= '0';
+      end if;
+    end process
+
+    process (pcnt) is
+      begin
+      if (lcnt = 640+16) then
+        VGA_VSYNC <= '1';
+      end if;
+      if (lcnt = 640+16+21) then
+        VGA_VSYNC <= '0';
+      end if;
+    end process
 
 end rtl;
