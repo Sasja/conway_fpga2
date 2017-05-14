@@ -13,7 +13,8 @@
 # ##############################################################################
 
 ###IOSet List 6
-set_io i_clk 21
+#12 MHz clock
+set_io clk12mhz 21
 
 set_io LED1 99
 set_io LED3 97
