@@ -7,7 +7,8 @@ entity vgatest is
     clk12mhz  : in     std_logic;
     LED1      : out    std_logic;
     VGA_VSYNC : out    std_logic;
-    VGA_HSYNC : out    std_logic);
+    VGA_HSYNC : out    std_logic;
+    VGA_R     : out    std_logic);
 end vgatest;
 
 architecture rtl of vgatest is
@@ -71,6 +72,19 @@ architecture rtl of vgatest is
       end if;
       if (pcnt = 16+96) then
         VGA_HSYNC <= '0';
+      end if;
+    end process;
+
+    process (pcnt) is
+      begin
+      if (pcnt > 160) then
+        if ((pcnt / 8) % 2 = 0) then
+          VGA_R <= '1';
+        else
+          VGA_R <= '1';
+        end if;
+      else
+        VGA_R <= '0';
       end if;
     end process;
 
