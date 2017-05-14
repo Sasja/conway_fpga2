@@ -90,7 +90,7 @@ architecture rtl of vgatest is
         else
           VGA_G <= '1';
         end if;
-        if (((pcnt - fcnt) / 32 ) mod 2 = 0) then
+        if (((pcnt + fcnt) / 32 ) mod 2 = 0) then
           VGA_B <= '0';
         else
           VGA_B <= '1';
