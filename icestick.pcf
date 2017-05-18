@@ -25,8 +25,8 @@ set_io LED4 96
 set_io VGA_R 62
 set_io VGA_G 61
 set_io VGA_B 60
-set_io VGA_VSYNC 56
-set_io VGA_HSYNC 48
+set_io VGA_VSYNC 45
+set_io VGA_HSYNC 44
 
 #set_io PMOD1 78
 #set_io PMOD2 79
