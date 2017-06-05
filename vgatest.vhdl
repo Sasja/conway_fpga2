@@ -15,10 +15,11 @@ end vgatest;
 
 architecture rtl of vgatest is
 
-  signal cnt    : natural range 0 to 7;   --subpixel count
-  signal pcnt   : natural range 0 to 799; --pixel    count (160 is 1st visible)
-  signal lcnt   : natural range 0 to 524; --line     count (0 is 1st visible)
-  signal fcnt   : natural range 0 to 127;  --frame    count
+  signal cnt    : natural range 0 to 7;     --subpixel count
+  signal pcnt   : natural range 0 to 799;   --pixel    count (160 is 1st visible)
+  signal lcnt   : natural range 0 to 524;   --line     count (0 is 1st visible)
+  signal fcnt   : natural range 0 to 59;    --frame    count
+  signal scnt   : natural range 0 to 65535; --second   count
   signal i_clk  : std_logic;
 
   begin
@@ -31,6 +32,7 @@ architecture rtl of vgatest is
               RESET => '1'
             );
 
+    -- generate cnt,pcnt,lcnt,fcnt,scnt
     process (i_clk) is
       begin
         if rising_edge(i_clk) then
@@ -46,10 +48,11 @@ architecture rtl of vgatest is
                 lcnt <= lcnt + 1;
               else
                 lcnt <= 0;
-                if (fcnt < 127) then
+                if (fcnt < 59) then
                   fcnt <= fcnt + 1;
                 else
                   fcnt <= 0;
+                  scnt <= scnt + 1;
                 end if;
               end if;
             end if;
@@ -57,22 +60,31 @@ architecture rtl of vgatest is
         end if;
     end process;
 
+    process (scnt) is
+      begin
+        if (scnt mod 2 = 0) then 
+          LED1 <= '1';
+        else
+          LED1 <= '0';
+        end if;
+    end process;
+
     process (lcnt) is
       begin
-      if (lcnt = 480+10) then
+      if (lcnt = 480+10-4) then
         VGA_VSYNC <= '1';
       end if;
-      if (lcnt = 480+10+2) then
+      if (lcnt = 480+10+2-4) then
         VGA_VSYNC <= '0';
       end if;
     end process;
 
     process (pcnt) is
       begin
-      if (pcnt = 16) then
+      if (pcnt = 16-9) then
         VGA_HSYNC <= '1';
       end if;
-      if (pcnt = 16+96) then
+      if (pcnt = 16+96-9) then
         VGA_HSYNC <= '0';
       end if;
     end process;
@@ -80,25 +92,19 @@ architecture rtl of vgatest is
     process (pcnt) is
       begin
       if (pcnt > 160 and lcnt < 480) then
-        if (((pcnt - fcnt + lcnt) / 64 ) mod 2 = 0) then
-          VGA_R <= '0';
-        else
+        if ((pcnt / 4) mod 2 = 0 xor (lcnt / 4 ) mod 2 = 0) then
           VGA_R <= '1';
-        end if;
-        if (((pcnt - fcnt - lcnt) / 64 ) mod 2 = 0) then
-          VGA_G <= '0';
-        else
           VGA_G <= '1';
-        end if;
-        if (((pcnt + fcnt) / 32 ) mod 2 = 0) then
-          VGA_B <= '0';
-        else
           VGA_B <= '1';
+        else
+          VGA_R <= '0';
+          VGA_G <= '0';
+          VGA_B <= '0';
         end if;
       else
-        VGA_R <= '1';
-        VGA_G <= '1';
-        VGA_B <= '1';
+        VGA_R <= '0';
+        VGA_G <= '0';
+        VGA_B <= '0';
       end if;
     end process;
 
